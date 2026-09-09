@@ -1,0 +1,142 @@
+/* --- CSS Variables for Theming --- */
+:root {
+    --panel-bg: rgba(255, 255, 255, 0.65);
+    --panel-border: rgba(15, 23, 42, 0.08);
+    --blur-intensity: 20px;
+    --button-color: #0f172a;      /* Slate/near-black for contrast */
+    --glow-color: #60a5fa;        /* Soft sky blue accent */
+    --accent-soft: #a7f3d0;       /* Soft mint accent */
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    overflow: hidden; /* Prevent all scrolling */
+    background-color: #f8fafc;
+}
+
+.font-heading {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* --- Soft, airy gradient backdrop (replaces the old dark aurora) --- */
+.aurora-background {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+    background:
+        radial-gradient(ellipse at 15% 20%, #dbeafe 0%, transparent 45%),
+        radial-gradient(ellipse at 85% 15%, #fce7f3 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 90%, #d1fae5 0%, transparent 50%),
+        #f8fafc;
+    background-size: 200% 200%;
+    animation: aurora-flow 24s infinite ease-in-out;
+}
+
+@keyframes aurora-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- Empty container kept for script.js compatibility --- */
+#spline-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+    transition: opacity 0.8s ease-in-out, filter 0.8s ease-in-out;
+    pointer-events: none;
+}
+
+/* --- Gradient Intro Title --- */
+.intro-title {
+    background: linear-gradient(90deg, #0f172a, #334155, #0f172a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+/* --- "Conditions" Button Style with Click Animation --- */
+.conditions-button {
+    padding: 1rem 2.5rem;
+    border: 2px solid var(--button-color);
+    border-radius: 50px;
+    background-color: transparent;
+    color: var(--button-color);
+    font-size: 1.125rem;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.conditions-button span {
+    position: relative;
+    z-index: 2;
+    transition: color 0.4s ease;
+}
+
+.conditions-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    background: var(--button-color);
+    border-radius: 50%;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.conditions-button:hover::before {
+    width: 250%;
+    height: 250%;
+}
+
+.conditions-button:hover {
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.15);
+}
+
+.conditions-button.clicked {
+    animation: button-click-anim 0.5s ease-out forwards;
+}
+
+@keyframes button-click-anim {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.9); opacity: 0.7; }
+    100% { transform: scale(0.9); opacity: 0; }
+}
+
+/* --- Main Content Layout --- */
+#main-page {
+    overflow-y: auto;
+    height: 100vh;
+}
+
+/* --- Glass Panel Style (soft, light, minimal) --- */
+.glass-panel {
+    background: var(--panel-bg);
+    backdrop-filter: blur(var(--blur-intensity));
+    -webkit-backdrop-filter: blur(var(--blur-intensity));
+    border: 1px solid var(--panel-border);
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 24px 0 rgba(15, 23, 42, 0.06);
+}
+
+/* --- Interactive 3D Tilt for Grid Items --- */
+.grid-container { perspective: 1000px; }
+.grid-container > .glass-panel { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.grid-container > .glass-panel:hover {
+    transform: translateZ(10px);
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.1);
+    cursor: pointer;
+}
+
+/* --- Custom Scrollbar --- */
+.hourly-forecast::-webkit-scrollbar { height: 6px; }
+.hourly-forecast::-webkit-scrollbar-track { background: transparent; }
+.hourly-forecast::-webkit-scrollbar-thumb { background: rgba(15, 23, 42, 0.15); border-radius: 3px; }
+.hourly-forecast::-webkit-scrollbar-thumb:hover { background: rgba(15, 23, 42, 0.3); }
+
+/* --- Animations --- */
+#weather-emoji { animation: pulse-emoji 2.5s infinite ease-in-out; }
+@keyframes pulse-emoji { 0%, 100% { transform: scale(1); opacity: 0.85; } 50% { transform: scale(1.1); opacity: 1; } }
