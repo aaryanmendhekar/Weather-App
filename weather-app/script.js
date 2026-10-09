@@ -166,20 +166,23 @@ searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') searchC
 closeModal.addEventListener('click', () => errorModal.classList.add('hidden'));
 
 function getInitialWeather() {
-    const defaultLat = 20.7478; // Wardha, Maharashtra
-    const defaultLon = 78.6022;
-    const defaultDisplayName = "Wardha, Maharashtra";
+  const defaultLat = 21.1458; // Nagpur, Maharashtra
+  const defaultLon = 79.0882;
+  const defaultDisplayName = "Nagpur, Maharashtra";
 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(async (position) => {
-            const { latitude, longitude } = position.coords;
-            getWeatherData(latitude, longitude, "Your Location");
-        }, (error) => {
-            console.warn("Geolocation denied. Defaulting to Wardha.");
-            getWeatherData(defaultLat, defaultLon, defaultDisplayName);
-        });
-    } else {
-        console.error("Geolocation is not supported by this browser.");
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        getWeatherData(latitude, longitude, "Your Location");
+      },
+      (error) => {
+        console.warn("Geolocation denied. Defaulting to Nagpur.");
         getWeatherData(defaultLat, defaultLon, defaultDisplayName);
-    }
+      },
+    );
+  } else {
+    console.error("Geolocation is not supported by this browser.");
+    getWeatherData(defaultLat, defaultLon, defaultDisplayName);
+  }
 }
